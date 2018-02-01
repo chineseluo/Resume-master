@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="online.resume.mapper.AboutMeMapper">
+    <resultMap id="aboutMeMap" type="aboutMe">
+        <id column="aboutMe_id" property="id"/>
+        <result column="aboutMe_createtime" property="createtime"/>
+        <result column="aboutMe_language" property="language"/>
+        <result column="aboutMe_name" property="name"/>
+        <result column="aboutMe_gender" property="gender"/>
+        <result column="aboutMe_birthday" property="birthday"/>
+        <result column="aboutMe_motto" property="motto"/>
+        <result column="aboutMe_residence" property="residence"/>
+        <result column="aboutMe_email" property="email"/>
+        <result column="aboutMe_mobile" property="mobile"/>
+        <result column="aboutMe_workingyears" property="workingyears"/>
+        <result column="aboutMe_resumefile" property="resumefile"/>
+        <association property="workingStatus" javaType="workingStatus">
+            <id column="workingStatus_id" property="id"/>
+            <result column="workingStatus_language" property="language"/>
+            <result column="workingStatus_name" property="name"/>
+            <result column="workingStatus_createtime" property="createtime"/>
+        </association>
+        <association property="educationDegree" javaType="educationDegree">
+            <id column="educationDegree_id" property="id"/>
+            <result column="educationDegree_createtime" property="createtime"/>
+            <result column="educationDegree_language" property="language"/>
+            <result column="educationDegree_name" property="name"/>
+        </association>
+    </resultMap>
+    <select id="findAboutMe" parameterType="aboutMe" resultMap="aboutMeMap">
+    select
+        ab.id as aboutMe_id,
+        ab.language as aboutMe_language,
+        ab.name as aboutMe_name,
+        ab.gender as aboutMe_gender,
+        ab.birthday as aboutMe_birthday,
+        ab.motto as aboutMe_motto,
+        ab.residence as aboutMe_residence,
+        ab.email as aboutMe_email,
+        ab.mobile as aboutMe_mobile,
+        ab.workingyears as aboutMe_workingyears,
+        ab.resumefile as aboutMe_resumefile,
+        wo.id as workingStatus_id,
+        wo.language as workingStatus_language,
+        wo.name as workingStatus_name,
+        wo.createtime as workingStatus_time,
+        ed.id as educationDegree_id,
+        ed.createtime as educationDegree_createtime,
+        ed.name as educationDegree_name,
+        ed.language as educationDegree_language
+from
+        t_about_me as ab
+        left join
+        t_working_status as wo on  ab.working_status_id=wo.id
+        left join
+        t_education_degree as ed on ab.education_degree_id =ed.id
+        and ab.id=#{id}
+    </select>
+    <update id="savaAboutMe" parameterType="aboutMe">
+update
+   t_about_me
+   <set>
+       <if test="name!=null">
+           name=#{name},
+       </if>
+       <if test="gender!=null">
+           gender =#{gender},
+       </if>
+       <if test="birthday!=null">
+           birthday =#{birthday},
+       </if>
+       <if test="motto!=null">
+           motto =#{motto},
+       </if>
+       <if test="residence!=null">
+           residence =#{residence},
+       </if>
+       <if test="email!=null">
+           email =#{email},
+       </if>
+       <if test="mobile!=null">
+           mobile =#{mobile},
+       </if>
+       <if test="workingyears!=null">
+           workingyears =#{workingyears},
+       </if>
+       <if test="resumefile!=null">
+           resumefile =#{resumefile},
+       </if>
+       <if test="workingStatus!=null">
+           workingStatus =#{workingStatus},
+       </if>
+       <if test="educationDegree!=null">
+           educationDegree =#{educationDegree},
+       </if>
+   </set>
+        where id=#{id}
+    </update>
+</mapper>

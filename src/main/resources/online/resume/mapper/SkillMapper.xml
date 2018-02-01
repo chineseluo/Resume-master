@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="online.resume.mapper.SkillMapper" >
+<select id="findAllSkill" parameterType="skill" resultType="skill">
+    select * from t_skill
+</select>
+    <update id="updateSkill" parameterType="skill">
+        update
+           t_skill
+
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="createtime!=null">
+                createtime =#{createtime},
+            </if>
+            <if test="language!=null">
+                language =#{language},
+            </if>
+            <if test="level!=null">
+                level =#{level},
+            </if>
+            <if test="indexno!=null">
+                indexno =#{indexno},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>
